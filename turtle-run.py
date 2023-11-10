@@ -36,9 +36,21 @@ def turnleft():
 def turnright():
     a.right(30)
 
+def increasespeed():
+    global speed
+    speed+=1
+
+def decreasespeed():
+    global speed
+    speed-=1
+    
+
+
 s.listen()
 s.onkeypress(turnleft,"Left")
-s.onkeypress(turnright,"Right")   
+s.onkeypress(turnright,"Right")
+s.onkeypress(increasespeed,"Up")
+s.onkeypress(decreasespeed,"Down")  
 
 
 while True:
