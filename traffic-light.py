@@ -1,32 +1,40 @@
+#Traffic light
+#by toushifA
+
 import turtle
 import time
 
+#set screen
 s=turtle.Screen()
 s.bgcolor("black")
 s.title("traffic-light")
 s.setup(width=300, height=300)
 
-a=turtle.Turtle()
-a.shape("circle")
-a.color("grey")
-a.speed(0)
-a.penup()
-a.goto(0,30)
+#Red lights
+red=turtle.Turtle()
+red.shape("circle")
+red.color("grey")
+red.speed(0)
+red.penup()
+red.goto(0,30)
 
-b=turtle.Turtle()
-b.shape("circle")
-b.color("grey")
-b.speed(0)
-b.penup()
-b.goto(0,0)
+#yellow lights
+yellow=turtle.Turtle()
+yellow.shape("circle")
+yellow.color("grey")
+yellow.speed(0)
+yellow.penup()
+yellow.goto(0,0)
 
-c=turtle.Turtle()
-c.shape("circle")
-c.color("grey")
-c.speed(0)
-c.penup()
-c.goto(0,-30)
+#green lights
+green=turtle.Turtle()
+green.shape("circle")
+green.color("grey")
+green.speed(0)
+green.penup()
+green.goto(0,-30)
 
+#boarder
 pen=turtle.Turtle()
 pen.color("brown")
 pen.speed(0)
@@ -35,27 +43,29 @@ pen.goto(-20, -50)
 pen.pendown()
 pen.pensize(3)
 pen.hideturtle()
-pen.forward(40)
-pen.left(90)
-pen.forward(100)
-pen.left(90)
-pen.forward(40)
-pen.left(90)
-pen.forward(100)
+for i in range(4):
+    pen.forward(40)
+    pen.left(90)
+    pen.forward(100)
+    pen.left(90)
 
+
+#function
 def a_animate():
-    a.color("red")
-    time.sleep(2)
-    a.color("grey")
 
-    b.color("yellow")
+    red.color("red")
+    time.sleep(2)
+    red.color("grey")
+
+    yellow.color("yellow")
     time.sleep(0.9)
-    b.color("grey")
+    yellow.color("grey")
 
-    c.color("green")
+    green.color("green")
     time.sleep(2)
-    c.color("grey")
+    green.color("grey")
 
+#mainloop
 while True:
     a_animate()
 
