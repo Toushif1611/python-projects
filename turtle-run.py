@@ -1,23 +1,31 @@
+#Turtle run
+#by toushifA
+
 import turtle
  
 speed=1
 
+#set screen
 s=turtle.Screen()
 s.bgcolor("black")
 s.title("TURTLE-RUN")
+s.tracer(0)
 
-a=turtle.Turtle()
-a.shape("turtle")
-a.color("green")
-a.speed(0)
-a.penup()
+#player
+player=turtle.Turtle()
+player.shape("turtle")
+player.color("green")
+player.speed(0)
+player.penup()
 
-b=turtle.Turtle()
-b.shape("circle")
-b.color("red")
-b.speed(0)
-b.penup()
+#food
+food=turtle.Turtle()
+food.shape("circle")
+food.color("red")
+food.speed(0)
+food.penup()
 
+#boarder
 pen=turtle.Turtle()
 pen.color("yellow")
 pen.pensize(5)
@@ -29,12 +37,12 @@ for i in range(4):
     pen.left(90)
     pen.hideturtle()
 
-
+#function
 def turnleft():
-    a.left(30)
+    player.left(30)
 
 def turnright():
-    a.right(30)
+    player.right(30)
 
 def increasespeed():
     global speed
@@ -44,25 +52,33 @@ def decreasespeed():
     global speed
     speed-=1
     
-
-
+#key binding
 s.listen()
 s.onkeypress(turnleft,"Left")
 s.onkeypress(turnright,"Right")
 s.onkeypress(increasespeed,"Up")
 s.onkeypress(decreasespeed,"Down")  
 
-
+#mainloop
 while True:
-    a.forward(speed)
-    b.forward(3)
-    if a.xcor()> 300 or a.xcor()< -300:
-        a.right(100)
-    if a.ycor()> 300 or a.ycor()< -300:
-        a.right(100)
-    if b.xcor()> 290 or b.xcor()< -290:
-        b.right(100)
-    if b.ycor()> 290 or b.ycor()< -290:
-        b.right(100)
+    s.update()
+    
+    #player move
+    player.forward(speed)
+
+    #food move
+    food.forward(3)
+
+    #boarder collision with player 
+    if player.xcor()> 300 or player.xcor()< -300:
+        player.right(100)
+    if player.ycor()> 300 or player.ycor()< -300:
+        player.right(100)
+
+    #boarder collision with player  
+    if food.xcor()> 290 or food.xcor()< -290:
+        food.right(100)
+    if food.ycor()> 290 or food.ycor()< -290:
+        food.right(100)
 
 s.mainloop()
