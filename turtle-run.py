@@ -7,6 +7,9 @@ import random
  
 speed=1
 
+#create score variable
+score=0
+
 #set screen
 s=turtle.Screen()
 s.bgcolor("black")
@@ -26,7 +29,16 @@ food.shape("circle")
 food.color("red")
 food.speed(0)
 food.penup()
-food.setposition(random.randint(-300, 300), random.randint(-300, 300))
+food.setposition(random.randint(-290, 290), random.randint(-290, 290))
+
+#score
+pen1=turtle.Turtle()
+pen1.color("white")
+pen1.speed(0)
+pen1.penup()
+pen1.hideturtle()
+pen1.goto(-290, 310)
+pen1.write("score: 0 ", align="left", font=("courier", 24, "normal"))
 
 #boarder
 pen=turtle.Turtle()
@@ -84,7 +96,10 @@ while True:
 
     #collision checking
     if isCollision(player, food):
-        food.setposition(random.randint(-300, 300), random.randint(-300, 300))
+        food.setposition(random.randint(-290, 290), random.randint(-290, 290))
+        score += 1
+        pen1.clear()
+        pen1.write("score: {}".format(score), align="left", font=("courier", 24, "normal"))
 
 
 s.mainloop()
