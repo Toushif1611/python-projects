@@ -2,6 +2,8 @@
 #by toushifA
 
 import turtle
+import math
+import random
  
 speed=1
 
@@ -24,6 +26,7 @@ food.shape("circle")
 food.color("red")
 food.speed(0)
 food.penup()
+food.setposition(random.randint(-300, 300), random.randint(-300, 300))
 
 #boarder
 pen=turtle.Turtle()
@@ -51,6 +54,13 @@ def increasespeed():
 def decreasespeed():
     global speed
     speed-=1
+
+def isCollision(t1, t2):
+    d = math.sqrt(math.pow(t1.xcor()-t2.xcor(),2) + math.pow(t1.ycor()-t2.ycor(),2))
+    if d <20:
+        return True
+    else:
+        return False
     
 #key binding
 s.listen()
@@ -66,19 +76,15 @@ while True:
     #player move
     player.forward(speed)
 
-    #food move
-    food.forward(3)
-
     #boarder collision with player 
     if player.xcor()> 300 or player.xcor()< -300:
         player.right(100)
     if player.ycor()> 300 or player.ycor()< -300:
         player.right(100)
 
-    #boarder collision with player  
-    if food.xcor()> 290 or food.xcor()< -290:
-        food.right(100)
-    if food.ycor()> 290 or food.ycor()< -290:
-        food.right(100)
+    #collision checking
+    if isCollision(player, food):
+        food.setposition(random.randint(-300, 300), random.randint(-300, 300))
+
 
 s.mainloop()
