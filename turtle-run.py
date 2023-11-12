@@ -6,8 +6,6 @@ import math
 import random
  
 speed=1
-
-#create score variable
 score=0
 
 #set screen
