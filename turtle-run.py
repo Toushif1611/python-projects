@@ -7,6 +7,7 @@ import random
  
 speed=1
 score=0
+level=0
 
 #set screen
 s=turtle.Screen()
@@ -36,7 +37,7 @@ pen1.speed(0)
 pen1.penup()
 pen1.hideturtle()
 pen1.goto(-290, 310)
-pen1.write("score: 0 ", align="left", font=("courier", 24, "normal"))
+pen1.write("score: 0 level: 0", align="left", font=("courier", 24, "normal"))
 
 #boarder
 pen=turtle.Turtle()
@@ -97,7 +98,30 @@ while True:
         food.setposition(random.randint(-290, 290), random.randint(-290, 290))
         score += 1
         pen1.clear()
-        pen1.write("score: {}".format(score), align="left", font=("courier", 24, "normal"))
+        pen1.write("score: {} level: {}".format(score, level), align="left", font=("courier", 24, "normal"))
+
+    #add levels
+    if score >= 9 and score <  6:
+        level=1
+        food.forward(1)
+        if food.xcor()> 290 or food.xcor()< -290:
+            food.right(100)
+        if food.ycor()> 290 or food.ycor()< -290:
+            food.right(100)
+    
+    if score >= 19:
+        level=2
+        food.forward(2)
+        if food.xcor()> 290 or food.xcor()< -290:
+            food.right(100)
+        if food.ycor()> 290 or food.ycor()< -290:
+            food.right(100)
+
+    if score == 5:
+        pen1.penup()
+        pen1.goto(0,0)
+        pen1.pendown()
+        pen1.write("you win", align="center", font=("courier", 30, "normal"))
 
 
 s.mainloop()
