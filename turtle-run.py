@@ -101,7 +101,7 @@ while True:
         pen1.write("score: {} level: {}".format(score, level), align="left", font=("courier", 24, "normal"))
 
     #add levels
-    if score >= 9 and score <  6:
+    if score >= 3 and score <  19:
         level=1
         food.forward(1)
         if food.xcor()> 290 or food.xcor()< -290:
@@ -109,7 +109,7 @@ while True:
         if food.ycor()> 290 or food.ycor()< -290:
             food.right(100)
     
-    if score >= 19:
+    if score >= 19 and score <  29:
         level=2
         food.forward(2)
         if food.xcor()> 290 or food.xcor()< -290:
@@ -117,12 +117,29 @@ while True:
         if food.ycor()> 290 or food.ycor()< -290:
             food.right(100)
 
-    if score == 5:
-        player.direction="stop"
+    if score >= 29 and score <  39:
+        level=3
+        food.forward(3)
+        if food.xcor()> 290 or food.xcor()< -290:
+            food.right(100)
+        if food.ycor()> 290 or food.ycor()< -290:
+            food.right(100)
+
+    if score >= 39 and score <  50:
+        level=4
+        food.forward(4)
+        if food.xcor()> 290 or food.xcor()< -290:
+            food.right(100)
+        if food.ycor()> 290 or food.ycor()< -290:
+            food.right(100)
+
+    #set wining screen
+    if score == 50:
         pen1.penup()
         pen1.goto(0,0)
         pen1.pendown()
-        pen1.write("you win", align="center", font=("courier", 30, "normal"))
+        pen1.write(" YOU WIN ", align="center", font=("courier", 50, "normal"))
+        break
 
 
 s.mainloop()
