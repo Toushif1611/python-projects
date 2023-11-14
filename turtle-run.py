@@ -135,9 +135,7 @@ while True:
 
     #set wining screen
     if score == 50:
-        pen1.penup()
         pen1.goto(0,0)
-        pen1.pendown()
         pen1.write(" YOU WIN ", align="center", font=("courier", 50, "normal"))
         break
 
