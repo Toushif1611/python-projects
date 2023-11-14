@@ -118,6 +118,7 @@ while True:
             food.right(100)
 
     if score == 5:
+        player.direction="stop"
         pen1.penup()
         pen1.goto(0,0)
         pen1.pendown()
