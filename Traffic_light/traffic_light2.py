@@ -9,7 +9,7 @@ import time
 s=turtle.Screen()
 s.bgcolor("black")
 s.title("traffic-light")
-s.setup(width=300, height=300)
+s.setup(width=600, height=600)
 
 #boarder
 boarder_pen=turtle.Turtle()
