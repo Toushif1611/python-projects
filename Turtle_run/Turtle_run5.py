@@ -72,20 +72,20 @@ def isCollision(t1, t2):
     else:
         return False
     
-#key binding
+#keyboard binding
 s.listen()
 s.onkeypress(turnleft,"Left")
 s.onkeypress(turnright,"Right")
 s.onkeypress(increasespeed,"Up")
 s.onkeypress(decreasespeed,"Down")  
 
-#mainloop
+#main game loop
 while True:
     
     #player move
     player.forward(speed)
 
-    #boarder collision
+    #check boarder collision
     if player.xcor()> 300 or player.xcor()< -300:
         player.right(100)
     if player.ycor()> 300 or player.ycor()< -300:
