@@ -1,6 +1,6 @@
 # Turtle run
 # by ToushifA_1611
-# create levels
+# create wining screen
 
 import turtle
 import math
