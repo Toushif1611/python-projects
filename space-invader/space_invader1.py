@@ -1,5 +1,6 @@
 # Space Invader
 # by ToushfA_1611
+#set screen and boarder
 
 import turtle
 
@@ -18,19 +19,6 @@ for i in range(4):
     boarder_pen.fd(600)
     boarder_pen.lt(90)
 boarder_pen.hideturtle()
-
-#player
-player = turtle.Turtle()
-player.shape("triangle")
-player.color("blue")
-player.penup()
-player.setposition(0,-280)
-player.setheading(90)
-
-
-
-
-
 
 
 
