@@ -132,10 +132,5 @@ while True:
         if food.ycor()> 290 or food.ycor()< -290:
             food.right(100)
 
-    #set wining screen
-    if score == 50:
-        pen1.goto(0,0)
-        pen1.write(" YOU WIN ", align="center", font=("courier", 50, "normal"))
-        break
 
 s.mainloop()
