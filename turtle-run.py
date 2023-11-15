@@ -1,6 +1,5 @@
-# Turtle run
-# by ToushifA_1611
-# create player and motion
+#Turtle run
+#by toushifA
 
 import turtle
 import math
@@ -41,16 +40,16 @@ pen1.goto(-290, 310)
 pen1.write("score: 0 level: 0", align="left", font=("courier", 24, "normal"))
 
 #boarder
-boarder_pen = turtle.Turtle()
-boarder_pen.color("white")
-boarder_pen.pensize(3)
-boarder_pen.penup()
-boarder_pen.setposition(-300,-300)
-boarder_pen.pendown()
+pen=turtle.Turtle()
+pen.color("yellow")
+pen.pensize(5)
+pen.penup()
+pen.goto(-300,-300)
+pen.pendown()
 for i in range(4):
-    boarder_pen.forward(600)
-    boarder_pen.left(90)
-boarder_pen.hideturtle()
+    pen.forward(600)
+    pen.left(90)
+    pen.hideturtle()
 
 #function
 def turnleft():
@@ -102,7 +101,7 @@ while True:
         pen1.write("score: {} level: {}".format(score, level), align="left", font=("courier", 24, "normal"))
 
     #add levels
-    if score >= 9 and score <  19:
+    if score >= 3 and score <  19:
         level=1
         food.forward(1)
         if food.xcor()> 290 or food.xcor()< -290:
