@@ -11,13 +11,6 @@ s=turtle.Screen()
 s.bgcolor("black")
 s.title("TURTLE-RUN")
 
-#player
-player=turtle.Turtle()
-player.shape("turtle")
-player.color("green")
-player.speed(0)
-player.penup()
-
 #boarder
 boarder_pen = turtle.Turtle()
 boarder_pen.color("white")
@@ -29,6 +22,14 @@ for i in range(4):
     boarder_pen.forward(600)
     boarder_pen.left(90)
 boarder_pen.hideturtle()
+
+#player
+player=turtle.Turtle()
+player.shape("turtle")
+player.color("green")
+player.speed(0)
+player.penup()
+
 
 #function
 def turnleft():
