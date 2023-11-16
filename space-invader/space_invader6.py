@@ -1,6 +1,6 @@
 # Space Invader
 # by ToushfA_1611
-# 
+# create collision function
 
 import turtle
 import math 
