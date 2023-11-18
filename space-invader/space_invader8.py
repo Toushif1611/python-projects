@@ -24,18 +24,6 @@ for i in range(4):
     boarder_pen.lt(90)
 boarder_pen.hideturtle()
 
-#set the score 
-score = 0
-
-#draw the score
-pen1=turtle.Turtle()
-pen1.color("white")
-pen1.speed(0)
-pen1.penup()
-pen1.hideturtle()
-pen1.goto(-290, 280)
-pen1.write("score: 0", align="left", font=("Arial", 14, "normal"))
-
 #player
 player = turtle.Turtle()
 player.shape("triangle")
@@ -163,11 +151,6 @@ while True:
             x = random.randint(-200, 200)
             y = random.randint(100, 250)
             enemy.setposition(x, y)
-            #update the score
-            score += 10
-            pen1.clear()
-            pen1.write("score: {}".format(score), align="left", font=("Arial", 14, "normal"))
-
 
         if isCollision(player, enemy):
             player.hideturtle()
