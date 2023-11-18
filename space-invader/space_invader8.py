@@ -155,7 +155,7 @@ while True:
         if isCollision(player, enemy):
             player.hideturtle()
             enemy.hideturtle()
-            print ("game over")
+            print ("game over") 
             break
 
     #move the bullet 
