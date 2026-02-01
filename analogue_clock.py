@@ -57,7 +57,7 @@ def draw_clock(h, m, s, a):
 while True:
     h = int(time.strftime("%I"))
     m = int(time.strftime("%M"))
-    s = int(time.strftime("%s"))
+    s = int(time.strftime("%S"))
     draw_clock(h, m, s, a)
     time.sleep(1)
     a.clear()
