@@ -1,5 +1,5 @@
 # Turtle run
-# by ToushifA_1611
+# by Toushif_1611
 # check food collision with player
 
 import turtle

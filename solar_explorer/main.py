@@ -224,59 +224,81 @@ class Mob:
 
         if self.is_boss:
 
-            # ---- slow cinematic approach first ----
-            if self.approach_phase:
-                if dist > 220:
-                    if dist != 0:
-                        self.pos += d.normalize() * 0.6   # VERY slow entry
-                else:
-                    self.approach_phase = False   # now real fight begins
+            hp_ratio = self.hp / self.max_hp
 
+            # ===== PHASE 1 (Above 50%) =====
+            if hp_ratio > 0.5:
+                self.speed = 1.5
+                shoot_delay = 45
+
+            # ===== PHASE 2 (Rage Mode) =====
             else:
-                # normal chase
-                if dist > 5:
-                    self.pos += d.normalize() * self.speed
+                self.speed = 2.4
+                shoot_delay = 25   # faster shooting
 
-                # dash only when closer
-                if dist < 350 and self.dash_timer == 0 and random.random() < 0.02:
-                    self.dash_timer = 18
+            if dist != 0:
+                direction = d.normalize()
 
-                if self.dash_timer > 0 and dist != 0:
-                    self.pos += d.normalize() * 4
-                    self.dash_timer -= 1
+                # --- Smart spacing ---
+                if dist > 250:
+                    self.pos += direction * self.speed
+                elif dist > 90:
+                    self.pos += direction.rotate(60) * 1.2
+                else:
+                    # rage smash
+                    self.pos += direction * (self.speed * 3)
 
-                # smooth orbit
-                angle_offset = math.sin(pygame.time.get_ticks() / 600) * 1.5
-                self.pos += d.rotate(angle_offset) * 0.6
+            # --- Predict player movement ---
+            future_pos = target + direction * 20
+            shoot_dir = (future_pos - self.pos)
+            if shoot_dir.length() != 0:
+                shoot_dir = shoot_dir.normalize()
 
-            if dist < 800:   # start shooting while approaching
-                self.shoot_timer += 1
-
-            fire_rate = max(15, 45 - difficulty * 3)
-            if self.shoot_timer >= fire_rate:
+            # --- Shooting ---
+            self.shoot_timer += 1
+            if self.shoot_timer >= shoot_delay:
                 self.shoot_timer = 0
 
-                d2 = target - self.pos
-                if d2.length() != 0:
-                    direction = d2.normalize()
+                pattern = random.choice(["single","spread","spiral"])
 
-                    pattern = random.choice([1,2,3])
+                if pattern == "single":
+                    boss_bullets.append([self.pos.copy(), shoot_dir * 7])
 
-                    if pattern == 1:
-                        boss_bullets.append([self.pos.copy(), direction * 6])
+                elif pattern == "spread":
+                    for ang in (-20,0,20):
+                        boss_bullets.append([self.pos.copy(), shoot_dir.rotate(ang) * 6])
 
-                    elif pattern == 2:
-                        for ang in (-25, 0, 25):
-                            boss_bullets.append([self.pos.copy(), direction.rotate(ang) * 4.5])
-
-                    elif pattern == 3:
-                        boss_bullets.append([self.pos.copy(), direction.rotate(90) * 3])
-                        boss_bullets.append([self.pos.copy(), direction.rotate(-90) * 3])
+                elif pattern == "spiral":
+                    angle = pygame.time.get_ticks() / 5
+                    vec = pygame.Vector2(1,0).rotate(angle)
+                    boss_bullets.append([self.pos.copy(), vec * 5])
 
         else:
-            if dist > 5 and dist != 0:
-                self.pos += d.normalize() * self.speed
+            if dist != 0:
+                direction = d.normalize()
 
+                # ---- AGGRESSION ZONE ----
+                attack_range = 140
+                collision_range = 60   # when very close → ram player
+
+                if dist > attack_range:
+                    # approach player
+                    self.pos += direction * self.speed
+
+                elif dist > collision_range:
+                    # circle while closing in
+                    self.pos += direction.rotate(45) * self.speed * 1.2
+
+                else:
+                    # FINAL RAM MODE (guaranteed collision)
+                    self.pos += direction * (self.speed * 2)
+
+                # ---- BULLET DODGE (only when far enough) ----
+                if dist > collision_range:
+                    for b in bullets:
+                        if self.pos.distance_to(b[0]) < 60:
+                            dodge_dir = (self.pos - b[0]).normalize()
+                            self.pos += dodge_dir * 3
 
     def hit(self,damage):
         self.hp -= damage
@@ -1013,3 +1035,4 @@ while True:
   
     pygame.display.update()
 
+Mob.update()
