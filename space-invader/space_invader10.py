@@ -194,7 +194,5 @@ while True:
         bulletstate = "ready"
 
 
-    
-
 
 s.mainloop()
