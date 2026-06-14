@@ -21,22 +21,26 @@ GRAY = (120, 120, 120)
 # -------------------- SETTINGS --------------------
 PLAYER_RADIUS = 15
 ENEMY_RADIUS = 15
-PLAYER_SPEED = 5
-enemy_speed = 5           # dynamized by difficulty
-BULLET_SPEED = 8
+PLAYER_SPEED = 300
+enemy_speed = 300           # dynamized by difficulty
+BULLET_SPEED = 520
 reload_time = 2000
 difficulty_scale = 1
 
 # -------------------- BULLET --------------------
+
 class Bullet:
     def __init__(self, x, y, dx, dy):
+        self.x = x
+        self.y = y
         self.rect = pygame.Rect(x - 4, y - 4, 8, 8)
         self.dx = dx
         self.dy = dy
 
-    def move(self):
-        self.rect.x += self.dx
-        self.rect.y += self.dy
+    def move(self, dt):
+        self.x += self.dx * dt
+        self.y += self.dy * dt
+        self.rect.center = (int(self.x), int(self.y))
 
     def draw(self):
         pygame.draw.rect(screen, GREEN, self.rect)
@@ -98,14 +102,13 @@ def dodge(entity_pos, bullets, radius=ENEMY_RADIUS):
 
 
 def intercept_vector(src, tgt, tgt_vel, speed):
-    """Return a unit (dx,dy) vector pointing where to fire to intercept target."""
     tx, ty = tgt
     sx, sy = src
     vx, vy = tgt_vel
     dx = tx - sx
     dy = ty - sy
     a = vx * vx + vy * vy - speed * speed
-    b = 2 * (dx * vx + dy * dy)
+    b = 2 * (dx * vx + dy * vy)
     c = dx * dx + dy * dy
 
     if abs(a) < 1e-6:
@@ -202,7 +205,8 @@ reset_round()  # initial setup
 # -------------------- MAIN GAME LOOP --------------------
 running = True
 while running:
-    clock.tick(60)
+    ms = clock.tick(60)
+    dt = ms / 1000.0
     screen.fill(BLACK)
     now = pygame.time.get_ticks()
 
@@ -234,10 +238,10 @@ while running:
 
     dx = dy = 0
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]: dy -= PLAYER_SPEED
-    if keys[pygame.K_s]: dy += PLAYER_SPEED
-    if keys[pygame.K_a]: dx -= PLAYER_SPEED
-    if keys[pygame.K_d]: dx += PLAYER_SPEED
+    if keys[pygame.K_w]: dy -= PLAYER_SPEED * dt
+    if keys[pygame.K_s]: dy += PLAYER_SPEED * dt
+    if keys[pygame.K_a]: dx -= PLAYER_SPEED * dt
+    if keys[pygame.K_d]: dx += PLAYER_SPEED * dt
 
     move_entity(player["pos"], dx, dy, PLAYER_RADIUS)
 
@@ -273,18 +277,16 @@ while running:
         move_x = move_y = 0
 
         if dist > MAX_DISTANCE:
-            move_x = dx * enemy_speed
-            move_y = dy * enemy_speed
+            move_x = dx * enemy_speed * dt
+            move_y = dy * enemy_speed * dt
         elif dist < SAFE_DISTANCE:
-            move_x = -dx * enemy_speed
-            move_y = -dy * enemy_speed
+            move_x = -dx * enemy_speed * dt
+            move_y = -dy * enemy_speed * dt
         else:
             perp_x = -dy
             perp_y = dx
-            if random.random() < 0.02:
-                enemy["strafe_dir"] *= -1
-            move_x = perp_x * enemy_speed * enemy["strafe_dir"]
-            move_y = perp_y * enemy_speed * enemy["strafe_dir"]
+            move_x = perp_x * enemy_speed * dt * enemy["strafe_dir"]
+            move_y = perp_y * enemy_speed * dt * enemy["strafe_dir"]
 
         if threats > 0:
             move_x = (move_x + dodge_x * 4) / 2
@@ -355,7 +357,7 @@ while running:
 
     # Player bullets
     for b in player_bullets[:]:
-        b.move()
+        b.move(dt)
         if b.rect.colliderect(enemy_rect):
             enemy["health"] -= 5
             player_bullets.remove(b)
@@ -366,7 +368,7 @@ while running:
 
     # Enemy bullets
     for b in enemy_bullets[:]:
-        b.move()
+        b.move(dt)
         if b.rect.colliderect(player_rect):
             player["health"] -= 5
             enemy_bullets.remove(b)
